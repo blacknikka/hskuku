@@ -5,41 +5,12 @@ using UnityEngine;
 public class AnimatorDestroy : MonoBehaviour
 {
     [SerializeField]
-    private Animator anime;
+    private GameObject GameMan;
 
-    [SerializeField]
-    private string animeName;
-
-    private AnimatorStateInfo animatorInf;
-
-    private float mLength;
-    private float mCur;
-
-    // Use this for initialization
-    void Start()
+    public void DestroyAnimation()
     {
-        animatorInf = anime.GetCurrentAnimatorStateInfo(0);
-        mLength = 0;
-        mCur = 0;
-    }
+        GameObject.Destroy(gameObject);
 
-    // Update is called once per frame
-    void Update()
-    {
-        if (mLength == 0
-        && animatorInf.IsName(animeName))
-        {
-            mLength = animatorInf.length;
-            mCur = 0;
-        }
-
-        if (0 < mLength)
-        {
-            mCur += Time.deltaTime;
-            if (mCur > mLength)
-            {
-                GameObject.Destroy(gameObject);
-            }
-        }
+        GameMan.GetComponent<GameManager>().ChangeGameState(GameManager.GameState.MainGame);
     }
 }

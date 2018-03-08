@@ -12,20 +12,9 @@ public class QuestionManager : MonoBehaviour
 
     public Animator QuestionAnimator;
 
-    private TimeManager _timeMan = new TimeManager();
-
     // Use this for initialization
     void Start()
     {
-        _timeMan.TimeElapsed += (s, e) =>
-        {
-            // プレハブ化
-            // arrayの３が一番遠いオブジェクト 
-            QuestionArray[3] = Instantiate(QuestionPrefab, QuestionPrefab.transform.position, QuestionPrefab.transform.rotation);
-
-            // 一つ進める
-            QuestionsNextMove();
-        };
     }
 
     // Update is called once per frame
@@ -41,6 +30,9 @@ public class QuestionManager : MonoBehaviour
         QuestionArray[0] = QuestionArray[1];
         QuestionArray[1] = QuestionArray[2];
         QuestionArray[2] = QuestionArray[3];
-        QuestionArray[3] = null;
+
+        // プレハブ化
+        // arrayの３が一番遠いオブジェクト 
+        QuestionArray[3] = Instantiate(QuestionPrefab, QuestionPrefab.transform.position, QuestionPrefab.transform.rotation);
     }
 }
