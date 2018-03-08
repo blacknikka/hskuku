@@ -26,6 +26,7 @@ public class GameManager : MonoBehaviour
             case GameState.WaitForStart:
                 break;
             case GameState.CountDown:
+                // カウントダウン開始時には特に何もしない
                 break;
             case GameState.MainGame:
                 break;
