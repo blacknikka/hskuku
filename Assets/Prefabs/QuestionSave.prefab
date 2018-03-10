@@ -42,7 +42,7 @@ GameObject:
   - component: {fileID: 95115289988402610}
   - component: {fileID: 114474990440211318}
   m_Layer: 0
-  m_Name: Question
+  m_Name: QuestionSave
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0

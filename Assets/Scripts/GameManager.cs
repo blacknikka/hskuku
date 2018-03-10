@@ -8,6 +8,8 @@ public class GameManager : MonoBehaviour
     [SerializeField]
     private Animator CountDownAnimation;
 
+    private QuestionManager QMan;
+
     public enum GameState
     {
         WaitForStart,       // スタート待ち
@@ -29,6 +31,8 @@ public class GameManager : MonoBehaviour
                 // カウントダウン開始時には特に何もしない
                 break;
             case GameState.MainGame:
+                // メインゲームの開始
+                QMan.QuestionInit();
                 break;
         }
     }
@@ -42,7 +46,7 @@ public class GameManager : MonoBehaviour
     // Use this for initialization
     void Start()
     {
-
+        QMan = gameObject.GetComponent<QuestionManager>();
     }
 
     // Update is called once per frame
