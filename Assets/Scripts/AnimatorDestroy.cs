@@ -9,7 +9,7 @@ public class AnimatorDestroy : MonoBehaviour
 
     public void DestroyAnimation()
     {
-        GameObject.Destroy(gameObject);
+        Destroy(gameObject);
 
         GameMan.GetComponent<GameManager>().ChangeGameState(GameManager.GameState.MainGame);
     }
