@@ -46,7 +46,7 @@ public class QuestionManager : MonoBehaviour
 
         Datas.QuestionArray[3] = Instantiate(QuestionPrefab, QuestionPrefab.transform.position, QuestionPrefab.transform.rotation);
         Datas.QuestionArray[3].GetComponent<QuestionControl>().DoAnimationFrameIn();
-}
+    }
 
     public void QuestionsNextMove()
     {
