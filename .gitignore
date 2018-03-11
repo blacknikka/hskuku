@@ -42,6 +42,8 @@ manifest.json
 
 #vscode
 .vscode
+VSCode/
+VSCode.meta
 
 #app directory
 appFile
