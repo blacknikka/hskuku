@@ -22,8 +22,8 @@ public class SoundManager : SingletonMonoBehaviour<SoundManager>
     //ボリューム保存用のkeyとデフォルト値
     private const string BGM_VOLUME_KEY = "BGM_VOLUME_KEY";
     private const string SE_VOLUME_KEY = "SE_VOLUME_KEY";
-    private const float BGM_VOLUME_DEFULT = 0.3f;
-    private const float SE_VOLUME_DEFULT = 0.3f;
+    private const float BGM_VOLUME_DEFULT = 0.2f;
+    private const float SE_VOLUME_DEFULT = 0.5f;
 
 	private void Awake()
 	{

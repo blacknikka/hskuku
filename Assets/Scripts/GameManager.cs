@@ -6,6 +6,7 @@ using System;
 
 public class GameManager : MonoBehaviour
 {
+    #region editor component
     [SerializeField]
     private Animator CountDownAnimation;
 
@@ -31,6 +32,7 @@ public class GameManager : MonoBehaviour
     // スコア表示用テキスト
     [SerializeField]
     private Text ScoreText;
+    #endregion
 
     // どっちが正解か
     private QuestionNotify.Answer Ans = QuestionNotify.Answer.Other;
@@ -38,6 +40,10 @@ public class GameManager : MonoBehaviour
     // 状態変更イベント
     public event EventHandler<GameState> StateChanged;
 
+    // 連続性回数
+    private int CorrectCnt = 0;
+
+    #region state
     public enum GameState
     {
         WaitForStart,       // スタート待ち
@@ -46,6 +52,7 @@ public class GameManager : MonoBehaviour
     }
 
     private GameState State = GameState.WaitForStart;
+    #endregion
 
     public void ChangeGameState(GameState state)
     {
@@ -70,16 +77,16 @@ public class GameManager : MonoBehaviour
         StateChanged?.Invoke(this, state);
     }
 
-	public void StartCountDown()
-	{
-        if(State == GameState.WaitForStart)
+    public void StartCountDown()
+    {
+        if (State == GameState.WaitForStart)
         {
             CountDownAnimation.SetTrigger("StartGame");
             ChangeGameState(GameState.CountDown);
 
             TouchDummy.SetActive(false);
         }
-	}
+    }
 
     // Use this for initialization
     void Start()
@@ -103,14 +110,15 @@ public class GameManager : MonoBehaviour
 
     public void Answer1_clicked()
     {
-        if(Ans == QuestionNotify.Answer.LeftOK)
+        if (Ans == QuestionNotify.Answer.LeftOK)
         {
             // 正解
-            ScoreManager.AddScore(100);
+            QuesitonCorrect();
         }
         else
         {
             // はずれ
+            QuestionFailed();
         }
 
         NextQuestion();
@@ -121,14 +129,43 @@ public class GameManager : MonoBehaviour
         if (Ans == QuestionNotify.Answer.RightOK)
         {
             // 正解
-            ScoreManager.AddScore(100);
+            QuesitonCorrect();
         }
         else
         {
             // はずれ
+            QuestionFailed();
         }
 
         NextQuestion();
+    }
+
+    private void QuesitonCorrect()
+    {
+        ScoreManager.AddScore(100);
+        CorrectCnt++;
+
+        string seName = "";
+        if(3 <= CorrectCnt)
+        {
+            seName = "correct_se3";
+        }
+        else if(2 <= CorrectCnt)
+        {
+            seName = "correct_se2";
+        }
+        else
+        {
+            seName = "correct_se1";
+        }
+
+        SoundManager.Inst.PlaySE(seName);
+    }
+
+    private void QuestionFailed()
+    {
+        CorrectCnt = 0;
+        SoundManager.Inst.PlaySE("failed_se");
     }
 
     private void NextQuestion()
