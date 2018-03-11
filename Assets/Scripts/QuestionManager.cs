@@ -36,7 +36,7 @@ public class QuestionManager : MonoBehaviour
     private GameObject QuestionPrefab;
 
     // 問題の管理
-    private QuestionItem[] Datas = new QuestionItem[4];
+    private List<QuestionItem> Datas = new List<QuestionItem>();
 
     // 問題の通知用イベント
     public event EventHandler<QuestionNotify> QuestionShowed;
@@ -45,10 +45,6 @@ public class QuestionManager : MonoBehaviour
     // Use this for initialization
     void Start()
     {
-        for (int i = 0; i < Datas.Length; i++)
-        {
-            Datas[i] = new QuestionItem();
-        }
     }
 
     // Update is called once per frame
@@ -72,14 +68,19 @@ public class QuestionManager : MonoBehaviour
 
     public void QuestionInit()
     {
+        Datas.Add(new QuestionItem());
+        Datas.Add(new QuestionItem());
+        Datas.Add(new QuestionItem());
+        Datas.Add(new QuestionItem());
+
         Datas[0].MakeQuestion(QuestionPrefab);
         Datas[1].MakeQuestion(QuestionPrefab);
         Datas[2].MakeQuestion(QuestionPrefab);
         Datas[3].MakeQuestion(QuestionPrefab);
 
         Datas[0].SetAnimation(QuestionState.OnTarget);
-        Datas[1].SetAnimation(QuestionState.Next1);
-        Datas[2].SetAnimation(QuestionState.Next2);
+        Datas[1].SetAnimation(QuestionState.Next2);
+        Datas[2].SetAnimation(QuestionState.Next1);
         Datas[3].SetAnimation(QuestionState.FrameIn);
 
         NotifyAnswer();
@@ -89,18 +90,18 @@ public class QuestionManager : MonoBehaviour
     {
         // 各問題を次に進める
         Datas[0].DestroyQuestion();
-        Datas[0] = Datas[1];
-        Datas[1] = Datas[2];
-        Datas[2] = Datas[3];
-        Datas[3].MakeQuestion(QuestionPrefab);
+        Datas.RemoveAt(0);
 
         Datas[0].SetAnimation(QuestionState.OnTarget);
-        Datas[1].SetAnimation(QuestionState.Next1);
-        Datas[2].SetAnimation(QuestionState.Next2);
+        Datas[1].SetAnimation(QuestionState.Next2);
+        Datas[2].SetAnimation(QuestionState.Next1);
+
+        Datas.Add(new QuestionItem());
+        Datas[3].MakeQuestion(QuestionPrefab);
         Datas[3].SetAnimation(QuestionState.FrameIn);
 
         NotifyAnswer();
-}
+    }
 
     private class QuestionItem
     {
@@ -131,8 +132,6 @@ public class QuestionManager : MonoBehaviour
                     break;
                 case QuestionState.OnTarget:
                     QuestionObj.GetComponent<QuestionControl>().DoAnimationOnTarget();
-
-                    // 問題の通知を行う
                     break;
                 default:
                     throw new System.Exception("target error");
@@ -154,7 +153,7 @@ public class QuestionManager : MonoBehaviour
 
         public void DestroyQuestion()
         {
-            Destroy(QuestionObj, 1.0f);
+            Destroy(QuestionObj);
         }
     }
 

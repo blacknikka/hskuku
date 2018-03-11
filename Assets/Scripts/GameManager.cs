@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
-
+using System;
 
 public class GameManager : MonoBehaviour
 {
@@ -35,6 +35,9 @@ public class GameManager : MonoBehaviour
     // どっちが正解か
     private QuestionNotify.Answer Ans = QuestionNotify.Answer.Other;
 
+    // 状態変更イベント
+    public event EventHandler<GameState> StateChanged;
+
     public enum GameState
     {
         WaitForStart,       // スタート待ち
@@ -62,6 +65,9 @@ public class GameManager : MonoBehaviour
                 QMan.QuestionInit();
                 break;
         }
+
+        // イベントの通知
+        StateChanged?.Invoke(this, state);
     }
 
 	public void StartCountDown()
@@ -115,6 +121,7 @@ public class GameManager : MonoBehaviour
         if (Ans == QuestionNotify.Answer.RightOK)
         {
             // 正解
+            ScoreManager.AddScore(100);
         }
         else
         {
