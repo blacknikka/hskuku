@@ -32,6 +32,9 @@ public class GameManager : MonoBehaviour
     // スコア表示用テキスト
     [SerializeField]
     private Text ScoreText;
+
+    [SerializeField]
+    private GameObject camera;
     #endregion
 
     // どっちが正解か
@@ -100,6 +103,8 @@ public class GameManager : MonoBehaviour
             Ans = e.Ans;
         };
 
+        // iTweenの初期化を行う
+        iTween.Init(camera);
     }
 
     // Update is called once per frame
@@ -146,11 +151,11 @@ public class GameManager : MonoBehaviour
         CorrectCnt++;
 
         string seName = "";
-        if(3 <= CorrectCnt)
+        if (3 <= CorrectCnt)
         {
             seName = "correct_se3";
         }
-        else if(2 <= CorrectCnt)
+        else if (2 <= CorrectCnt)
         {
             seName = "correct_se2";
         }
@@ -159,7 +164,11 @@ public class GameManager : MonoBehaviour
             seName = "correct_se1";
         }
 
+        // 正解のSEを鳴らす
         SoundManager.Inst.PlaySE(seName);
+
+        // 画面揺らす
+        iTween.ShakePosition(camera, iTween.Hash("x", 1f, "y", 1f, "time", 0.5f));
     }
 
     private void QuestionFailed()
